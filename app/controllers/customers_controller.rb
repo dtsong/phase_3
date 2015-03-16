@@ -24,7 +24,7 @@ class CustomersController < ApplicationController
 		@customer = Customer.new(customer_params)
 		if @customer.save
 			# if saved to database
-			flash[:notice] = "Successfully created #{@owner.proper_name}."
+			flash[:notice] = "Successfully created #{@customer.proper_name}."
 			redirect_to @customer 
 		else 
 			# return to the 'new' form
@@ -43,10 +43,19 @@ class CustomersController < ApplicationController
 
   def destroy
     @customer.destroy
-    flash[:notice] = "Successfully removed #{@customer.proper_name} from the PATS system."
+    flash[:notice] = "Successfully removed #{@customer.proper_name} from the Bread Express system."
     redirect_to customers_url
   end
 
+  private 
+  	# Use callbacks to share common setup or constraints between actions.
+  	def set_customer
+  		@customer = Customer.find(params[:id])
+  	end
 
+  	# Never trust parameters from the scary interwebz, only allow the white list tho.
+	def customer_params
+		params.require(:customer).permit(:first_name, :last_name, :email, :phone, :active)
+	end  	
 end
 
