@@ -1,0 +1,29 @@
+<h1>Bread Express Customers</h1><br>
+
+<table class="datagrid">
+  <thead class="datagrid">
+    <th>Customer</th>
+    <th>Phone</th>
+		<th>Email</th>
+		<th>&nbsp;</th>
+  </thead>
+  <% for customer in @customers %>
+    <tr class="<%= cycle('dg_list_line_odd', 'dg_list_line_even') %>">
+      <td><%= link_to "#{customer.last_name}, #{customer.first_name}", customer_path(customer) %></td>
+      <td><%= number_to_phone customer.phone %></td>
+      <td><%= mail_to customer.email, customer.email, encode: "javascript" %></td>
+	  	<td align="center">
+				<%= link_to(image_tag("icons/edit_dg.gif", border: 0), edit_customer_path(customer))  %>
+				<%= link_to(image_tag("icons/delete_dg.gif", border: 0), customer_path(customer), method: :delete, data: { confirm: 'Are you sure you wish to delete this information?' }) %>
+	  	</td>
+    </tr>
+  <% end %>
+</table>
+<p class="supertiny"></p>
+
+<!-- Add the pagination using will_paginate gem -->
+<span class="smtext">
+<%= will_paginate @customers, previous_label: "Previous&nbsp;", next_label: "&nbsp;Next" %>
+</span>
+
+<p><strong><%= link_to "Add A New Customer", new_customer_path %></strong></p>
